@@ -17,9 +17,10 @@ RSpec.describe '/', type: :feature do
       expect(page).to have_button('Create a New User')
     end
 
+    
     it 'I see a list of existing users which links to the their dashboard' do
       expect(page).to have_content('Existing Users')
-
+      
       within "#user_#{@user1.id}" do
         expect(page).to have_content(@user1.email)
       end
@@ -30,13 +31,23 @@ RSpec.describe '/', type: :feature do
         expect(page).to have_content(@user3.email)
       end
     end
-
+    
     it 'I see a link (Home) that will take me back to the welcome page' do
       expect(page).to have_link('Home')
-
+      
       click_link('Home')
-
+      
       expect(current_path).to eq(root_path)
+    end
+
+    it 'I see a button to log in' do
+      expect(page).to have_button('Log In')
+    end
+
+    it 'When I click the log in button I am taken to a login form' do
+      click_button('Log In')
+
+      expect(current_path).to eq(login_path)
     end
   end
 end
