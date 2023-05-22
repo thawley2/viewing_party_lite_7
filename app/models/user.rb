@@ -3,7 +3,9 @@ class User < ApplicationRecord
   has_many :parties, through: :user_parties
 
   validates :name, presence: true
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :password, confirmation: true
+  validates :password_confirmation, presence: true
 
   def hosted_parties
     parties.where("user_parties.is_host = true")
