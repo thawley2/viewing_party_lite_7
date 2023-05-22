@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates :password, confirmation: true
   validates :password_confirmation, presence: true
 
+  has_secure_password
+  
   def hosted_parties
     parties.where("user_parties.is_host = true")
   end
