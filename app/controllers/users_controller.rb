@@ -11,7 +11,7 @@ class UsersController < ApplicationController
       redirect_to user_path(@user.id)
     rescue ActiveRecord::RecordInvalid => exception
       flash[:error] = exception.message
-      render :new
+      redirect_to new_user_path
     end
   end
 
