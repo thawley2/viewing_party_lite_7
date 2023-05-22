@@ -22,13 +22,15 @@ class UsersController < ApplicationController
   def login_form
   end
 
-  def login
+  def login_user
     user = User.find_by(email: params[:email])
-    if user.authenticate(params[:password])
+    if user&.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to user_path(user)
+    else
+      redirect_to login_path
+      flash[:error] = 'Email or Password does not exist'
     end
-    # require 'pry'; binding.pry
   end
 
   private
