@@ -6,12 +6,12 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to user_path(@user)
-    else
-      flash[:error] = 'A name and unique email must be present.'
-      redirect_to new_user_path
+    begin
+      @user = User.create!(user_params)
+      redirect_to user_path(@user.id)
+    rescue ActiveRecord::RecordInvalid => exception
+      flash[:error] = exception.message
+      render :new
     end
   end
 
