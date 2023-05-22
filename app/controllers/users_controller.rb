@@ -6,11 +6,11 @@ class UsersController < ApplicationController
   end
 
   def create
-    begin
-      @user = User.create!(user_params)
-      redirect_to user_path(@user.id)
-    rescue ActiveRecord::RecordInvalid => exception
-      flash[:error] = exception.message
+    user = User.new(user_params)
+    if user.save
+      redirect_to user_path(user.id)
+    else
+      flash[:error] = user.errors.full_messages.to_sentence
       redirect_to new_user_path
     end
   end
