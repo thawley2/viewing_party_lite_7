@@ -50,7 +50,7 @@ RSpec.describe '/register', type: :feature do
       fill_in 'Confirm Password:', with: '12345'
       click_button 'Register'
 
-      expect(page).to have_content("Validation failed: Email has already been taken")
+      expect(page).to have_content("Email has already been taken")
     end
 
     it 'should not allow users to register without a unique e-mail address case insensitive' do
@@ -62,7 +62,7 @@ RSpec.describe '/register', type: :feature do
       fill_in 'Confirm Password:', with: '12345'
       click_button 'Register'
 
-      expect(page).to have_content("Validation failed: Email has already been taken")
+      expect(page).to have_content("Email has already been taken")
     end
 
     it 'should not allow users to register without a name' do
@@ -73,7 +73,7 @@ RSpec.describe '/register', type: :feature do
       fill_in 'Confirm Password:', with: '12345'
       click_button 'Register'
 
-      expect(page).to have_content("Validation failed: Name can't be blank")
+      expect(page).to have_content("Name can't be blank")
     end
 
     it 'should not allow users to register without an e-mail address' do
@@ -84,7 +84,7 @@ RSpec.describe '/register', type: :feature do
       fill_in 'Confirm Password:', with: '12345'
       click_button 'Register'
 
-      expect(page).to have_content("Validation failed: Email can't be blank")
+      expect(page).to have_content("Email can't be blank")
     end
 
     it 'should not allow users to register without filling in the password field' do
@@ -93,7 +93,7 @@ RSpec.describe '/register', type: :feature do
       fill_in 'Confirm Password:', with: '12345'
       click_button 'Register'
 
-      expect(page).to have_content("Validation failed: Password confirmation doesn't match Password, Password can't be blank")
+      expect(page).to have_content("Password can't be blank")
     end
 
     it 'should not allow users to register without filling in the confirm password field' do
@@ -102,7 +102,7 @@ RSpec.describe '/register', type: :feature do
       fill_in 'Password:', with: '12345'
       click_button 'Register'
 
-      expect(page).to have_content("Password confirmation doesn't match Password, Password confirmation can't be blank")
+      expect(page).to have_content("Password confirmation doesn't match Password")
     end
 
     it 'should not allow users to register if the password and confirm passwords dont match' do 
