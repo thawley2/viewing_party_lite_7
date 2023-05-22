@@ -7,5 +7,11 @@
   <%= f.label :email, "E-mail Address:" %>
   <%= f.text_field :email %>
 
+  <%= f.label :password, "Password:" %>
+  <%= f.password_field :password %>
+
+  <%= f.label :password_confirmation, "Confirm Password:" %>
+  <%= f.password_field :password_confirmation %>
+
   <%= f.submit "Register" %>
 <% end %>
