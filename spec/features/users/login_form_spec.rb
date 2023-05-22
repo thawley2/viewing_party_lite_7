@@ -25,5 +25,23 @@ RSpec.describe '/login', type: :feature do
       expect(current_path).to eq(user_path(@user.id))
       expect(page).to have_content("#{@user.name}'s Dashboard")
     end
+
+    it 'When I fill out the form with incorrect password and click log in I see an error message and the login form' do
+      fill_in :email, with: @user.email
+      fill_in :password, with: 'password'
+
+      click_button('Log In')
+
+      expect(page).to have_content('Email or Password does not exist')
+    end
+
+    it 'When I fill out the form with incorrect email and click log in I see an error message and the login form' do
+      fill_in :email, with: 'email@email.com'
+      fill_in :password, with: @user.password
+
+      click_button('Log In')
+
+      expect(page).to have_content('Email or Password does not exist')
+    end
   end
 end
