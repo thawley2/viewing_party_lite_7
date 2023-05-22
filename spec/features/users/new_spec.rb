@@ -53,6 +53,18 @@ RSpec.describe '/register', type: :feature do
       expect(page).to have_content("Validation failed: Email has already been taken")
     end
 
+    it 'should not allow users to register without a unique e-mail address case insensitive' do
+      user = create(:user)
+
+      fill_in 'Name', with: "#{user.name}"
+      fill_in 'E-mail Address:', with: "#{user.email.upcase}"
+      fill_in 'Password:', with: '12345'
+      fill_in 'Confirm Password:', with: '12345'
+      click_button 'Register'
+
+      expect(page).to have_content("Validation failed: Email has already been taken")
+    end
+
     it 'should not allow users to register without a name' do
       user = create(:user)
 
