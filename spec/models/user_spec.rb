@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
     it {should have_many(:user_parties)}
     it {should have_many(:parties).through(:user_parties)}
   end
-
+  
   describe 'validations' do
     it {should validate_presence_of(:name)}
     it {should validate_presence_of(:email)}
@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
     it {should validate_confirmation_of(:password)}
     it {should validate_presence_of(:password_confirmation)}
   end
-
+  
   describe 'instance methods' do
     describe '#hosted_parties' do
       it 'returns an array of all parties the user is hosting' do
