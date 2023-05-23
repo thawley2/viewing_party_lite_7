@@ -12,6 +12,7 @@ RSpec.describe '/users/:id/movies/:id/viewing_party/new', type: :feature do
 
     it 'I see the name of the movie title' do
       VCR.use_cassette('find_movies_550', :allow_playback_repeats => true) do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
         @movie = MovieFacade.new(550)
         visit new_user_movie_viewing_party_path(@user1, 550)
         expect(page).to have_content("Create a Movie Party for #{@movie.movie_title}")
@@ -20,6 +21,7 @@ RSpec.describe '/users/:id/movies/:id/viewing_party/new', type: :feature do
 
     it 'I see a button to the discover page' do
       VCR.use_cassette('find_movies_550', :allow_playback_repeats => true) do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
         @movie = MovieFacade.new(550)
         visit new_user_movie_viewing_party_path(@user1, 550)
 
@@ -50,6 +52,7 @@ RSpec.describe '/users/:id/movies/:id/viewing_party/new', type: :feature do
   describe 'If a user does not fill out the entire form' do
     it 'The user does not fill out the date an error message displays' do
       VCR.use_cassette('find_movies_550', :allow_playback_repeats => true) do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
         visit new_user_movie_viewing_party_path(@user1, 550)
 
         fill_in :duration, with: 250
@@ -66,6 +69,7 @@ RSpec.describe '/users/:id/movies/:id/viewing_party/new', type: :feature do
 
     it 'The user does not fill out the time an error message displays' do
       VCR.use_cassette('find_movies_550', :allow_playback_repeats => true) do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
         visit new_user_movie_viewing_party_path(@user1, 550)
 
         fill_in :duration, with: 250
