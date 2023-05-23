@@ -11,10 +11,10 @@ Rails.application.routes.draw do
   post '/login', to: 'users#login_user'
   delete '/logout', to: 'users#logout'
   get '/dashboard', to: 'users#show'
+  get '/discover', to: 'users/discover#index'
   
     
   resources :users, only: [:create] do
-    get '/discover', to: 'users/discover#index'
     resources :movies, only: [:index, :show], controller: 'users/movies' do
       resources :viewing_party, only: [:new, :create], controller: 'users/movies/viewing_parties'
     end
