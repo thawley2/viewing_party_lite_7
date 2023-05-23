@@ -6,11 +6,12 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to user_path(@user)
+    user = User.new(user_params)
+    if user.save
+      session[:user_id] = user.id
+      redirect_to user_path(user.id)
     else
-      flash[:error] = 'A name and unique email must be present.'
+      flash[:error] = user.errors.full_messages.to_sentence
       redirect_to new_user_path
     end
   end
@@ -19,12 +20,31 @@ class UsersController < ApplicationController
     @facade = MovieFacade
   end
 
+  def login_form
+  end
+
+  def login_user
+    user = User.find_by(email: params[:email])
+    if user&.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect_to user_path(user)
+    else
+      redirect_to login_path
+      flash[:error] = 'Email or Password does not exist'
+    end
+  end
+
+  def logout
+    session[:user_id] = nil
+    redirect_to root_path
+  end
+
   private
   def user_params
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
   def get_user
-    @user = User.find(params[:id])
+    @user = current_user
   end
 end

@@ -1,11 +1,9 @@
 <h1>Viewing Party</h1>
-
-<%= button_to 'Create a New User', new_user_path, method: :get %>
-
-
-<h2>Existing Users</h2>
-<% @users.each do |user| %>
-<ul>
-  <li id="user_<%= user.id %>"><%= link_to user.email, "/users/#{user.id}" %></li>
-</ul>
+<% if current_user %>
+  <%= button_to 'Log Out', '/logout', method: :delete %>
+<% else %>
+  <%= button_to 'Create a New User', new_user_path, method: :get %>
+  <%= button_to 'Log In', login_path, method: :get %>
 <% end %>
+
+
