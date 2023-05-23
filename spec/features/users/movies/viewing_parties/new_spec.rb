@@ -44,7 +44,7 @@ RSpec.describe '/users/:id/movies/:id/viewing_party/new', type: :feature do
         check "#{@user2.name}"
 
         click_button 'Create Party!'
-        expect(current_path).to eq(user_path(@user1))
+        expect(current_path).to eq(dashboard_path)
       end
     end
   end

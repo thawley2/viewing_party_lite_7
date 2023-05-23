@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     user = User.new(user_params)
     if user.save
       session[:user_id] = user.id
-      redirect_to user_path(user.id)
+      redirect_to dashboard_path
     else
       flash[:error] = user.errors.full_messages.to_sentence
       redirect_to new_user_path
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
     user = User.find_by(email: params[:email])
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to user_path(user)
+      redirect_to dashboard_path
     else
       redirect_to login_path
       flash[:error] = 'Email or Password does not exist'

@@ -10,7 +10,7 @@ class Users::Movies::ViewingPartiesController < ApplicationController
     if party.save
       create_user_parties(params[:invite], party.id)
       create_host_party(@user.id, party.id)
-      redirect_to user_path(@user)
+      redirect_to dashboard_path
     else
       flash[:error] = 'Please fill out all fields!'
       redirect_to new_user_movie_viewing_party_path(@user, params[:movie_id])

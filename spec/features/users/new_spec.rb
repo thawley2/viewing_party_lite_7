@@ -38,7 +38,7 @@ RSpec.describe '/register', type: :feature do
       click_button 'Register'
 
       expected_user = User.last
-      expect(current_path).to eq(user_path(expected_user))
+      expect(current_path).to eq(dashboard_path)
     end
 
     it 'should not allow users to register without a unique e-mail address' do
