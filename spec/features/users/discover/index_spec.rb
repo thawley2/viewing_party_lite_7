@@ -4,7 +4,7 @@ RSpec.describe '/users/:id/discover', type: :feature do
   before(:each) do
     @user1 = create(:user)
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-    visit user_discover_path(@user1)
+    visit discover_path
   end
 
   describe 'When a user visits their users discover page' do

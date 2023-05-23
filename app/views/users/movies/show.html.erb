@@ -1,6 +1,6 @@
 <h2><%= @facade.movie_title %></h2>
 
-<%= button_to 'Discover Page', user_discover_path(@user.id), method: :get  %>
+<%= button_to 'Discover Page', discover_path, method: :get  %>
 <%= button_to 'Create Viewing Party', new_user_movie_viewing_party_path(@user, @facade.movie_id), method: :get  %>
 
 <p>Vote Average: <%= @facade.movie_vote_average %></p>

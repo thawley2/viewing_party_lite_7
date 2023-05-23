@@ -82,7 +82,7 @@ RSpec.describe '/users/:id', type: :feature do
         visit dashboard_path
         click_button 'Discover Movies'
 
-        expect(current_path).to eq(user_discover_path(@user1))
+        expect(current_path).to eq(discover_path)
         expect(page).to have_content('Discover Movies')
       end
     end

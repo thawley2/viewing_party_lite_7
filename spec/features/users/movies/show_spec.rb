@@ -6,7 +6,7 @@ RSpec.describe '/users/:id/movies/:id' do
       @user1 = create(:user)
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
 
-      visit user_discover_path(@user1)
+      visit discover_path
 
       click_button 'Discover Top Rated Movies'
 
@@ -42,7 +42,7 @@ RSpec.describe '/users/:id/movies/:id' do
           
           click_button 'Discover Page'
           
-          expect(current_path).to eq(user_discover_path(@user1))
+          expect(current_path).to eq(discover_path)
         end
       end
 
