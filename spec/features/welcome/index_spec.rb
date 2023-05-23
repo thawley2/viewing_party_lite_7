@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe '/', type: :feature do
-  describe 'When a user visits the root path' do
+  describe 'When a user visits the root path and are not logged in' do
     before(:each) do
       @user1 = create(:user)
       @user2 = create(:user)
@@ -36,6 +36,13 @@ RSpec.describe '/', type: :feature do
 
     it 'When a user is not logged in they do not see existing users' do
       expect(page).to_not have_content('Existing Users')
+    end
+
+    it 'When trying to visit the dashboard from the landing page an error displays' do
+      visit dashboard_path
+
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content('Must be logged in to access the dashboard.')
     end
   end
 
