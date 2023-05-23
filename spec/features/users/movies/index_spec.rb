@@ -9,6 +9,7 @@ RSpec.describe '/users/:id/movies#index' do
     describe 'And they click on Discover Top Rated Movies' do
       it 'They are taken to the user movies index page where a list of the top movies is rendered' do
         VCR.use_cassette('top_20_movies', allow_playback_repeats: true) do
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
           top_movies = MoviesFacade.new.movies
 
           visit user_discover_path(@user1)
@@ -30,7 +31,7 @@ RSpec.describe '/users/:id/movies#index' do
 
       it 'Each movie name listed is a link to their show page' do
         VCR.use_cassette('this_should_work', allow_playback_repeats: true) do
-
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
           top_movies = MoviesFacade.new.movies
           first_movie = top_movies.first
 
@@ -46,6 +47,7 @@ RSpec.describe '/users/:id/movies#index' do
 
       it 'When search field is not filled in or spaces added and the Search button is clicked, top movies are returned' do
         VCR.use_cassette('top_20_movies', allow_playback_repeats: true) do
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
           top_movies = MoviesFacade.new.movies
           visit user_discover_path(@user1)
 
@@ -75,6 +77,7 @@ RSpec.describe '/users/:id/movies#index' do
     describe 'When they fill in the search field and click search' do
       it 'They are taken to the movie index page where the 20 results for their search are listed' do
         VCR.use_cassette('search_movies_tremors', allow_playback_repeats: true) do
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
           search_movies = MoviesFacade.new('Tremors').movies
           visit user_discover_path(@user1)
 
@@ -97,7 +100,7 @@ RSpec.describe '/users/:id/movies#index' do
 
       it 'Each movie name listed in the search results is a link to their show page' do
         VCR.use_cassette('does_this_work', allow_playback_repeats: true) do
-
+          allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
           search_movies = MoviesFacade.new('Tremors').movies
           first_movie = search_movies.first
 

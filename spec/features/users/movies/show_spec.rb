@@ -4,6 +4,7 @@ RSpec.describe '/users/:id/movies/:id' do
   before(:each) do
     VCR.use_cassette('test_for_links_top_movies', :allow_playback_repeats => true) do
       @user1 = create(:user)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
 
       visit user_discover_path(@user1)
 

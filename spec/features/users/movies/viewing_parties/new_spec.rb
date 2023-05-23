@@ -31,6 +31,7 @@ RSpec.describe '/users/:id/movies/:id/viewing_party/new', type: :feature do
   describe 'I see a form to create a new Viewing Party' do
     it 'When a user fills out all fields in the form and clicks submit a new viewing party is created' do
       VCR.use_cassette('find_movies_550', :allow_playback_repeats => true) do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
         @movie = MovieFacade.new(550)
         visit new_user_movie_viewing_party_path(@user1, 550)
 
