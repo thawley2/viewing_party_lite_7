@@ -17,7 +17,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    @facade = MovieFacade
+    if current_user
+      @facade = MovieFacade
+    else
+      flash[:error] = 'Must be logged in to access the dashboard.'
+      redirect_to root_path
+    end
   end
 
   def login_form
