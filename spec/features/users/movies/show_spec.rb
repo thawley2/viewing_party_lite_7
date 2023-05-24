@@ -32,7 +32,7 @@ RSpec.describe '/users/:id/movies/:id' do
         
         click_button 'Create Viewing Party'
         
-        expect(current_path).to eq(new_user_movie_viewing_party_path(@user1, @movie.id))
+        expect(current_path).to eq(new_movie_viewing_party_path(@movie.id))
       end
     end
 

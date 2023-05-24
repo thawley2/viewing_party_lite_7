@@ -22,7 +22,7 @@ RSpec.describe '/users/:id/discover', type: :feature do
     it 'They are taken to the movies results page' do
       VCR.use_cassette('top_20_movies', allow_playback_repeats: true) do
         click_button('Discover Top Rated Movies')
-        expect(current_path).to eq(user_movies_path(@user1))
+        expect(current_path).to eq(movies_path)
       end
     end
   end
@@ -34,7 +34,7 @@ RSpec.describe '/users/:id/discover', type: :feature do
         
         click_button('Search')
         
-        expect(current_path).to eq(user_movies_path(@user1))
+        expect(current_path).to eq(movies_path)
       end
     end
   end

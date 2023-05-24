@@ -15,7 +15,7 @@ RSpec.describe '/users/:id/movies#index' do
           visit discover_path
           click_button ('Discover Top Rated Movies')
 
-          expect(current_path).to eq(user_movies_path(@user1))
+          expect(current_path).to eq(movies_path)
 
           expect(page).to have_content('Viewing Party')
           expect(page).to have_button('Discover Page')
@@ -40,7 +40,7 @@ RSpec.describe '/users/:id/movies#index' do
 
           within "#movie_#{first_movie.id}" do
             click_link(first_movie.title)
-            expect(current_path).to eq(user_movie_path(@user1, first_movie.id))
+            expect(current_path).to eq(movie_path(first_movie.id))
           end
         end
       end
@@ -84,7 +84,7 @@ RSpec.describe '/users/:id/movies#index' do
           fill_in :q, with: 'Tremors'
           click_button ('Search')
 
-          expect(current_path).to eq(user_movies_path(@user1))
+          expect(current_path).to eq(movies_path)
 
           expect(page).to have_content('Viewing Party')
           expect(page).to have_button('Discover Page')
@@ -112,7 +112,7 @@ RSpec.describe '/users/:id/movies#index' do
 
           within "#movie_#{first_movie.id}" do
             click_link(first_movie.title)
-            expect(current_path).to eq(user_movie_path(@user1, first_movie.id))
+            expect(current_path).to eq(movie_path(first_movie.id))
           end
         end
       end

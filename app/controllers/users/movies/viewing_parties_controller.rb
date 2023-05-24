@@ -13,7 +13,7 @@ class Users::Movies::ViewingPartiesController < ApplicationController
       redirect_to dashboard_path
     else
       flash[:error] = 'Please fill out all fields!'
-      redirect_to new_user_movie_viewing_party_path(@user, params[:movie_id])
+      redirect_to new_movie_viewing_party_path(params[:movie_id])
     end
   end
 

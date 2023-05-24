@@ -6,7 +6,7 @@
 
 <h3>Viewing Party Details</h3>
   <p>Movie Title: <%= @facade.movie_title %></p>
-<%= form_with url: user_movie_viewing_party_index_path(@user, @facade.movie_id), local: true do |f| %>
+<%= form_with url: movie_viewing_party_index_path(@facade.movie_id), local: true do |f| %>
   <%= f.label :duration, 'Duration of Party' %>
   <%= f.number_field :duration, value: @facade.movie_runtime, min: @facade.movie_runtime, max: 300 %><br><br>
   <%= f.label :date, 'Day' %>
