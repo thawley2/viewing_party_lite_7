@@ -20,15 +20,27 @@ RSpec.describe '/users/:id', type: :feature do
     it 'I see <users name> Dashboard" at the top of the page' do
       VCR.use_cassette('all_movie_data_by_id_550_551', :allow_playback_repeats => true) do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-        visit user_path(@user1)
+        visit dashboard_path
         expect(page).to have_content("#{@user1.name}'s Dashboard")
+      end
+    end
+
+    it 'I see a button to go to my dashboard' do
+      VCR.use_cassette('all_movie_data_by_id_550_551', :allow_playback_repeats => true) do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+        visit dashboard_path
+        expect(page).to have_link('Dashboard')
+        
+        click_link('Dashboard')
+        
+        expect(current_path).to eq(dashboard_path)
       end
     end
 
     it 'has a button (Discover Movies)' do
       VCR.use_cassette('all_movie_data_by_id_550_551', :allow_playback_repeats => true) do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-        visit user_path(@user1)
+        visit dashboard_path
         expect(page).to have_button('Discover Movies')
       end
     end
@@ -40,7 +52,7 @@ RSpec.describe '/users/:id', type: :feature do
 
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
 
-        visit user_path(@user1)
+        visit dashboard_path
 
         expect(page).to have_content('Parties Hosting')
         expect(page).to have_content('Parties Attending')
@@ -79,10 +91,10 @@ RSpec.describe '/users/:id', type: :feature do
     it 'redirects to a discover page for the specific user' do
       VCR.use_cassette('all_movie_data_by_id_550_551', :allow_playback_repeats => true) do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-        visit user_path(@user1)
+        visit dashboard_path
         click_button 'Discover Movies'
 
-        expect(current_path).to eq(user_discover_path(@user1))
+        expect(current_path).to eq(discover_path)
         expect(page).to have_content('Discover Movies')
       end
     end

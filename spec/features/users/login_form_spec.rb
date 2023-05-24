@@ -22,7 +22,7 @@ RSpec.describe '/login', type: :feature do
 
       click_button('Log In')
 
-      expect(current_path).to eq(user_path(@user.id))
+      expect(current_path).to eq(dashboard_path)
       expect(page).to have_content("#{@user.name}'s Dashboard")
     end
 

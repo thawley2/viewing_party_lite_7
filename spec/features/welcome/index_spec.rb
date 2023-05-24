@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe '/', type: :feature do
-  describe 'When a user visits the root path' do
+  describe 'When a user visits the root path and are not logged in' do
     before(:each) do
       @user1 = create(:user)
       @user2 = create(:user)
@@ -15,21 +15,6 @@ RSpec.describe '/', type: :feature do
     it 'I see a button to create a new user' do
       expect(page).to have_button('Create a New User')
     end
-
-    
-    # it 'I see a list of existing users which links to the their dashboard' do
-    #   expect(page).to have_content('Existing Users')
-      
-    #   within "#user_#{@user1.id}" do
-    #     expect(page).to have_content(@user1.email)
-    #   end
-    #   within "#user_#{@user2.id}" do
-    #     expect(page).to have_content(@user2.email)
-    #   end
-    #   within "#user_#{@user3.id}" do
-    #     expect(page).to have_content(@user3.email)
-    #   end
-    # end
     
     it 'I see a link (Home) that will take me back to the welcome page' do
       expect(page).to have_link('Home')
@@ -43,16 +28,34 @@ RSpec.describe '/', type: :feature do
       expect(page).to have_button('Log In')
     end
 
+    it 'I dont see a button to go to my dashboard' do
+      visit root_path
+      expect(page).to_not have_link('Dashboard')
+    end
+
     it 'When I click the log in button I am taken to a login form' do
       click_button('Log In')
 
       expect(current_path).to eq(login_path)
+    end
+
+    it 'When a user is not logged in they do not see existing users' do
+      expect(page).to_not have_content('Existing Users')
+    end
+
+    it 'When trying to visit the dashboard from the landing page an error displays' do
+      visit dashboard_path
+
+      expect(current_path).to eq(root_path)
+      expect(page).to have_content('Must be logged in to access the dashboard.')
     end
   end
 
   describe 'When a user is logged in' do
     before(:each) do
       @user1 = create(:user)
+      @user2 = create(:user)
+      @user3 = create(:user)
     end
     it 'I dont see the create new user or Log in button' do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
@@ -65,6 +68,16 @@ RSpec.describe '/', type: :feature do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
       visit root_path
       expect(page).to have_button('Log Out')
+    end
+    
+    it 'I see a button to go to my dashboard' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+      visit root_path
+      expect(page).to have_link('Dashboard')
+
+      click_link('Dashboard')
+
+      expect(current_path).to eq(dashboard_path)
     end
 
     it 'When I click the log out button I am taken back to the landing page and see the login/createuser buttons' do
@@ -80,6 +93,22 @@ RSpec.describe '/', type: :feature do
       expect(page).to have_button('Log In')
       expect(page).to have_button('Create a New User')
       expect(page).to_not have_button('Log Out')
+    end
+
+    it 'When a user is logged in they see a list of existing users emails' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+      visit root_path
+      expect(page).to have_content('Existing Users')
+      
+      within "#user_#{@user1.id}" do
+        expect(page).to have_content(@user1.email)
+      end
+      within "#user_#{@user2.id}" do
+        expect(page).to have_content(@user2.email)
+      end
+      within "#user_#{@user3.id}" do
+        expect(page).to have_content(@user3.email)
+      end
     end
   end
 end

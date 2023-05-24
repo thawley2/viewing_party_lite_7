@@ -4,7 +4,7 @@ RSpec.describe '/users/:id/discover', type: :feature do
   before(:each) do
     @user1 = create(:user)
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-    visit user_discover_path(@user1)
+    visit discover_path
   end
 
   describe 'When a user visits their users discover page' do
@@ -22,7 +22,7 @@ RSpec.describe '/users/:id/discover', type: :feature do
     it 'They are taken to the movies results page' do
       VCR.use_cassette('top_20_movies', allow_playback_repeats: true) do
         click_button('Discover Top Rated Movies')
-        expect(current_path).to eq(user_movies_path(@user1))
+        expect(current_path).to eq(movies_path)
       end
     end
   end
@@ -34,7 +34,7 @@ RSpec.describe '/users/:id/discover', type: :feature do
         
         click_button('Search')
         
-        expect(current_path).to eq(user_movies_path(@user1))
+        expect(current_path).to eq(movies_path)
       end
     end
   end
