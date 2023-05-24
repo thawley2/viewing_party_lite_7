@@ -1,8 +1,12 @@
 class Users::Movies::ViewingPartiesController < ApplicationController
   before_action :get_user
   def new
-    @facade = MovieFacade.new(params[:movie_id])
-    @users = User.other_users(@user.id)
+    if current_user
+      @facade = MovieFacade.new(params[:movie_id])
+      @users = User.other_users(@user.id)
+    else
+      flash[:error] = 'Must be logged in to create a Viewing Party.'
+    end
   end
 
   def create
