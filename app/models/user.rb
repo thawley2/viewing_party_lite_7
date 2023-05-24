@@ -5,9 +5,10 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
 
-
   has_secure_password
-  
+
+  enum role: %w[default admin] 
+
   def hosted_parties
     parties.where("user_parties.is_host = true")
   end

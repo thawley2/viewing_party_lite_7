@@ -28,6 +28,7 @@ RSpec.describe User, type: :model do
     it {should validate_confirmation_of(:password)}
     it {should validate_presence_of(:password)}
     it {should have_secure_password}
+    it {should define_enum_for(:role).with(['default', 'admin'])}
   end
 
   describe 'attributes' do
