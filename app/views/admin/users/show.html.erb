@@ -1,0 +1,18 @@
+<h1><%=@user.name%>'s Dashboard </h1>
+
+<%= button_to 'Discover Movies', discover_path, method: :get  %>
+<hr>
+
+<div id='hosting'>
+  <%= render partial: 'shared/parties', locals: {
+                                        title: 'Parties Hosting',
+                                        parties: @user.hosted_parties,
+                                        host: @user.name
+    } %>
+</div>
+
+<div id='invited'>
+  <%= render partial: 'shared/parties', locals: {
+                                      title: 'Parties Attending',
+                                      parties: @user.invited_parties
+  } %>
