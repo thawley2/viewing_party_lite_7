@@ -19,6 +19,7 @@ RSpec.describe '/users/:id/movies#index' do
 
           expect(page).to have_content('Viewing Party')
           expect(page).to have_button('Discover Page')
+          expect(page).to have_link('Dashboard')
 
           top_movies.each do |movie|
             within "#movie_#{movie.id}" do
