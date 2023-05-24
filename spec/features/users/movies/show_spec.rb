@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/users/:id/movies/:id' do
+RSpec.describe '/users/movies/:id' do
   before(:each) do
     VCR.use_cassette('test_for_links_top_movies', :allow_playback_repeats => true) do
       @user1 = create(:user)
@@ -76,12 +76,15 @@ RSpec.describe '/users/:id/movies/:id' do
     end
 
     it 'returns an error message if a visitor is not logged in and clicks create viewing party' do
-      expect(page).to have_button('Create Viewing Party')
+      VCR.use_cassette('movie_no_log_in', :allow_playback_repeats => true) do
+
+        expect(page).to have_button('Create Viewing Party')
         
         click_button 'Create Viewing Party'
         
         expect(current_path).to eq(movie_path(@movie.id))
         expect(page).to have_content('Must be logged in to create a Viewing Party.')
+      end
     end
   end
 end
