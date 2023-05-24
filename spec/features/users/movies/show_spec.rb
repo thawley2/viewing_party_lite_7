@@ -30,7 +30,7 @@ RSpec.describe '/users/movies/:id' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
 
         expect(page).to have_button('Create Viewing Party')
-        
+        expect(page).to have_button('Dashboard')
         click_button 'Create Viewing Party'
         
         expect(current_path).to eq(new_movie_viewing_party_path(@movie.id))
