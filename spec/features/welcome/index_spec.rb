@@ -28,6 +28,11 @@ RSpec.describe '/', type: :feature do
       expect(page).to have_button('Log In')
     end
 
+    it 'I dont see a button to go to my dashboard' do
+      visit root_path
+      expect(page).to_not have_link('Dashboard')
+    end
+
     it 'When I click the log in button I am taken to a login form' do
       click_button('Log In')
 
@@ -63,6 +68,16 @@ RSpec.describe '/', type: :feature do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
       visit root_path
       expect(page).to have_button('Log Out')
+    end
+    
+    it 'I see a button to go to my dashboard' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+      visit root_path
+      expect(page).to have_link('Dashboard')
+
+      click_link('Dashboard')
+
+      expect(current_path).to eq(dashboard_path)
     end
 
     it 'When I click the log out button I am taken back to the landing page and see the login/createuser buttons' do
