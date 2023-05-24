@@ -15,6 +15,5 @@ Rails.application.routes.draw do
   resources :movies, only: [:index, :show], controller: 'users/movies' do
     resources :viewing_party, only: [:new, :create], controller: 'users/movies/viewing_parties'
   end
-  resources :users, only: [:create] do
-  end
+  resources :users, only: [:create]
 end
