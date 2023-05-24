@@ -25,6 +25,18 @@ RSpec.describe '/users/:id', type: :feature do
       end
     end
 
+    it 'I see a button to go to my dashboard' do
+      VCR.use_cassette('all_movie_data_by_id_550_551', :allow_playback_repeats => true) do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+        visit dashboard_path
+        expect(page).to have_link('Dashboard')
+        
+        click_link('Dashboard')
+        
+        expect(current_path).to eq(dashboard_path)
+      end
+    end
+
     it 'has a button (Discover Movies)' do
       VCR.use_cassette('all_movie_data_by_id_550_551', :allow_playback_repeats => true) do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
