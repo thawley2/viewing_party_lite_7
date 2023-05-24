@@ -5,6 +5,7 @@ RSpec.describe '/admin/users/:id', type: :feature do
     @user1 = create(:user)
     @user2 = create(:user)
     @user3 = create(:user)
+    @user4 = create(:user, role: 1)
 
     @party1 = create(:party, movie_id: 550, start_time: "04:30:45 UTC")
     @party2 = create(:party, movie_id: 551, start_time: "04:35:30 UTC")
@@ -19,16 +20,16 @@ RSpec.describe '/admin/users/:id', type: :feature do
   describe 'When I visit the users dashboard page' do
     it 'I see <users name> Dashboard" at the top of the page' do
       VCR.use_cassette('all_movie_data_by_id_550_551', :allow_playback_repeats => true) do
-        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-        visit dashboard_path
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user4)
+        visit admin_path(@user1.id)
         expect(page).to have_content("#{@user1.name}'s Dashboard")
       end
     end
 
     it 'I see a button to go to my dashboard' do
       VCR.use_cassette('all_movie_data_by_id_550_551', :allow_playback_repeats => true) do
-        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-        visit dashboard_path
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user4)
+        visit admin_path(@user1.id)
         expect(page).to have_link('Dashboard')
         
         click_link('Dashboard')
@@ -39,8 +40,8 @@ RSpec.describe '/admin/users/:id', type: :feature do
 
     it 'has a button (Discover Movies)' do
       VCR.use_cassette('all_movie_data_by_id_550_551', :allow_playback_repeats => true) do
-        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-        visit dashboard_path
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user4)
+        visit admin_path(@user1.id)
         expect(page).to have_button('Discover Movies')
       end
     end
@@ -50,9 +51,8 @@ RSpec.describe '/admin/users/:id', type: :feature do
         title_550 = MovieFacade.get_movie_title(550)
         title_551 = MovieFacade.get_movie_title(551)
 
-        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-
-        visit dashboard_path
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user4)
+        visit admin_path(@user1.id)
 
         expect(page).to have_content('Parties Hosting')
         expect(page).to have_content('Parties Attending')
@@ -84,6 +84,16 @@ RSpec.describe '/admin/users/:id', type: :feature do
           end
         end
       end
+    end
+  end
+
+  describe 'When a user tries to go to the admin dashboard page' do
+    it 'An error message is returned and are sent back to the landing page' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+
+      visit admin_path(@user2.id)
+
+      expect(page).to have_content("The page you were looking for doesn't exist (404)")
     end
   end
 end

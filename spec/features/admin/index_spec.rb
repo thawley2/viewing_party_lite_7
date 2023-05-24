@@ -47,4 +47,14 @@ RSpec.describe '/admin/dashboard', type: :feature do
       expect(current_path).to eq(admin_path(@user1.id))
     end
   end
+
+  describe 'When a user tries to go to the admin dashboard page' do
+    it 'An error message is returned and are sent back to the landing page' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
+
+      visit admin_dashboard_path
+
+      expect(page).to have_content("The page you were looking for doesn't exist (404)")
+    end
+  end
 end
