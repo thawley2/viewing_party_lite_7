@@ -26,14 +26,15 @@ RSpec.describe '/users/movies/:id' do
 
   describe 'When I visit a movies details page' do
     it 'should have a button that links to a page to create a new viewing party' do
-      VCR.use_cassette('movie_details', :allow_playback_repeats => true) do
+      VCR.use_cassette('movie_273_show_page', :allow_playback_repeats => true) do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user1)
-
+        visit movie_path(273)
+        
         expect(page).to have_button('Create Viewing Party')
-        expect(page).to have_button('Dashboard')
+        expect(page).to have_link('Dashboard')
         click_button 'Create Viewing Party'
         
-        expect(current_path).to eq(new_movie_viewing_party_path(@movie.id))
+        expect(current_path).to eq(new_movie_viewing_party_path(273))
       end
     end
 
