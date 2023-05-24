@@ -6,6 +6,7 @@ class Users::Movies::ViewingPartiesController < ApplicationController
       @users = User.other_users(@user.id)
     else
       flash[:error] = 'Must be logged in to create a Viewing Party.'
+      redirect_to movie_path(params[:movie_id])
     end
   end
 
