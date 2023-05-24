@@ -32,11 +32,7 @@ class UsersController < ApplicationController
     user = User.find_by(email: params[:email])
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      if user.admin?
-        redirect_to admin_dashboard_path
-      else
-        redirect_to dashboard_path
-      end
+      check_for_admin(user)
     else
       redirect_to login_path
       flash[:error] = 'Email or Password does not exist'
@@ -55,5 +51,13 @@ class UsersController < ApplicationController
 
   def get_user
     @user = current_user
+  end
+
+  def check_for_admin(user)
+    if user.admin?
+      redirect_to admin_dashboard_path
+    else
+      redirect_to dashboard_path
+    end
   end
 end
