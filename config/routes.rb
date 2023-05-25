@@ -7,19 +7,18 @@ Rails.application.routes.draw do
 
   get '/register', to: 'users#new', as: :new_user
 
-  get '/login', to: 'users#login_form'
-  post '/login', to: 'users#login_user'
-  delete '/logout', to: 'users#logout'
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
 
-  get '/dashboard', to: 'users#show'
-
+  
   namespace :admin do
     get '/dashboard', to: 'users#index'
     get '/users/:id', to: 'users#show'
   end
-
+  
+  get '/dashboard', to: 'users#show'
   get '/discover', to: 'users/discover#index'
-
   resources :movies, only: [:index, :show], controller: 'users/movies' do
     resources :viewing_party, only: [:new, :create], controller: 'users/movies/viewing_parties'
   end
