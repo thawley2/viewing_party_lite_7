@@ -1,4 +1,4 @@
-# Viewing Party
+# Viewing Party (README is currently in progress)
 
 Viewing Party Lite is an application in which users can explore movie options and create a viewing party event for themselves and other users of the application.
 This application consumes multiple endpoints from the TMDB API to render movie information and movie images.
