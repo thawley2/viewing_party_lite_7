@@ -1,11 +1,11 @@
 <h1>Viewing Party</h1>
 
-<%= button_to 'Discover Page', user_discover_path(@user), method: :get %>
+<%= button_to 'Discover Page', discover_path, method: :get %>
 
 <% @facade.movies.each do |movie| %>
 <ul>
   <li id="movie_<%= movie.id %>">
-    <%= link_to movie.title, user_movie_path(@user, movie.id) %>
+    <%= link_to movie.title, movie_path(movie.id) %>
     Vote Average: <%= movie.vote_average %>
   </li>
 </ul>

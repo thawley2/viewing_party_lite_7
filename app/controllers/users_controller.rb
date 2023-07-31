@@ -6,25 +6,31 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-    if @user.save
-      redirect_to user_path(@user)
+    user = User.new(user_params)
+    if user.save
+      session[:user_id] = user.id
+      redirect_to dashboard_path
     else
-      flash[:error] = 'A name and unique email must be present.'
+      flash[:error] = user.errors.full_messages.to_sentence
       redirect_to new_user_path
     end
   end
 
   def show
-    @facade = MovieFacade
+    if current_user
+      @facade = MovieFacade
+    else
+      flash[:error] = 'Must be logged in to access the dashboard.'
+      redirect_to root_path
+    end
   end
 
   private
   def user_params
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
   def get_user
-    @user = User.find(params[:id])
+    @user = current_user
   end
 end

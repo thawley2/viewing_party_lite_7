@@ -5,12 +5,22 @@ Rails.application.routes.draw do
   # root "articles#index"
   root 'welcome#index'
 
-  get 'register', to: 'users#new', as: :new_user
+  get '/register', to: 'users#new', as: :new_user
 
-  resources :users, only: [:create, :show] do
-    get 'discover', to: 'users/discover#index'
-    resources :movies, only: [:index, :show], controller: 'users/movies' do
-      resources :viewing_party, only: [:new, :create], controller: 'users/movies/viewing_parties'
-    end
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+
+  
+  namespace :admin do
+    get '/dashboard', to: 'users#index'
+    get '/users/:id', to: 'users#show'
   end
+  
+  get '/dashboard', to: 'users#show'
+  get '/discover', to: 'users/discover#index'
+  resources :movies, only: [:index, :show], controller: 'users/movies' do
+    resources :viewing_party, only: [:new, :create], controller: 'users/movies/viewing_parties'
+  end
+  resources :users, only: [:create]
 end

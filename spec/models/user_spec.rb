@@ -20,13 +20,26 @@ RSpec.describe User, type: :model do
     it {should have_many(:user_parties)}
     it {should have_many(:parties).through(:user_parties)}
   end
-
+  
   describe 'validations' do
     it {should validate_presence_of(:name)}
     it {should validate_presence_of(:email)}
-    it {should validate_uniqueness_of(:email)}
+    it {should validate_uniqueness_of(:email).case_insensitive}
+    it {should validate_confirmation_of(:password)}
+    it {should validate_presence_of(:password)}
+    it {should have_secure_password}
+    it {should define_enum_for(:role).with_values(['default', 'admin'])}
   end
 
+  describe 'attributes' do
+    it 'user has password_digest attribute' do
+      user = User.create(name: 'Meg', email: 'meg@test.com', password: 'password123', password_confirmation: 'password123')
+  
+      expect(user).to_not have_attribute(:password)
+      expect(user.password_digest).to_not eq('password123')
+    end
+  end
+  
   describe 'instance methods' do
     describe '#hosted_parties' do
       it 'returns an array of all parties the user is hosting' do
